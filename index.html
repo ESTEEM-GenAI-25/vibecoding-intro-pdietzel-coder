@@ -1,105 +1,255 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Github, Linkedin, Mail, Music, Trophy, Presentation, Dumbbell, Golf, GraduationCap, MapPin, Rocket, FileText, Mic2, Calendar, Lightbulb } from "lucide-react";
+# Parker Dietzel — Personal Website (Vite + React, Tailwind via CDN)
+
+Below is a complete, ready‑to‑push GitHub repo. Create a new repo, add these files with the same paths, then follow the README steps to run locally and auto‑deploy to GitHub Pages.
+
+---
+File: package.json
+---
+{
+  "name": "parker-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.441.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^24.1.0",
+    "vite": "^5.4.8",
+    "vitest": "^2.0.5"
+  },
+  "vitest": {
+    "environment": "jsdom",
+    "setupFiles": ["./src/test/setup.js"]
+  }
+}
+
+---
+File: vite.config.js
+---
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// If deploying to GitHub Pages under https://<user>.github.io/<repo>/, 
+// the base must be "/<repo>/". The workflow sets VITE_BASE automatically.
+export default defineConfig({
+  plugins: [react()],
+  base: process.env.VITE_BASE || '/',
+})
+
+---
+File: index.html
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parker Dietzel</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+---
+File: src/main.jsx
+---
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+
+---
+File: src/App.jsx
+---
+import React from 'react'
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Music,
+  Trophy,
+  BarChart3,
+  Dumbbell,
+  Flag,
+  GraduationCap,
+  MapPin,
+  Rocket,
+  FileText,
+  Mic,
+  Calendar,
+  Lightbulb,
+} from 'lucide-react'
 
 // ----------
-// Parker Dietzel — Single-file personal site
-// Tech: React + Tailwind + shadcn/ui + lucide-react icons
-// Drop this into a Next.js/React app and route it at "/". All links flagged TODO can be wired later.
+// Data
 // ----------
-
 const skills = [
-  "Venture Strategy",
-  "TAM/SAM/SOM Modeling",
-  "Go-To-Market",
-  "Fundraising (SAFE, Angels, VC)",
-  "Sports Science",
-  "Golf Performance",
-  "R, Python, Google Sheets",
-  "Data Visualization",
-  "Stakeholder Interviews",
-  "Pitch Storytelling",
-];
+  'Venture Strategy',
+  'TAM/SAM/SOM Modeling',
+  'Go-To-Market',
+  'Fundraising (SAFE, Angels, VC)',
+  'Sports Science',
+  'Golf Performance',
+  'R, Python, Google Sheets',
+  'Data Visualization',
+  'Stakeholder Interviews',
+  'Pitch Storytelling',
+]
 
 const ventures = [
   {
-    name: "GameRun",
-    role: "Senior Capital & GTM Strategist",
-    period: "2025 — present",
+    name: 'GameRun',
+    role: 'Senior Capital & GTM Strategist',
+    period: '2025 — present',
     blurb:
-      "AI‑driven sports‑video analytics. I lead capital readiness, VC outreach, and GTM. Modeling TAM/SAM/SOM, pricing, and investor materials.",
-    tags: ["AI", "Sports Tech", "Video Analytics"],
-    cta: { label: "Learn more", href: "#" }, // TODO
+      'AI‑driven sports‑video analytics. I lead capital readiness, VC outreach, and GTM. Modeling TAM/SAM/SOM, pricing, and investor materials.',
+    tags: ['AI', 'Sports Tech', 'Video Analytics'],
+    cta: { label: 'Learn more', href: '#' },
   },
   {
-    name: "Furnish Forward",
-    role: "COO & Co‑Founder",
-    period: "2024 — present",
+    name: 'Furnish Forward',
+    role: 'COO & Co‑Founder',
+    period: '2024 — present',
     blurb:
-      "Furniture redistribution startup turning dorm/apartment turnover into circular-economy wins. Ops, partnerships, and growth.",
-    tags: ["Circular Economy", "Ops", "Social Impact"],
-    cta: { label: "Coming soon", href: "#" },
+      'Furniture redistribution startup turning dorm/apartment turnover into circular‑economy wins. Ops, partnerships, and growth.',
+    tags: ['Circular Economy', 'Ops', 'Social Impact'],
+    cta: { label: 'Coming soon', href: '#' },
   },
-];
+]
 
 const highlights = [
   {
-    icon: <GraduationCap className="h-6 w-6" />,
-    title: "Notre Dame ESTEEM",
+    icon: <GraduationCap className="h-6 w-6" aria-label="Education" />,
+    title: 'Notre Dame ESTEEM',
     text: "Master's in Engineering, Science & Tech Entrepreneurship (ESTEEM).",
   },
   {
-    icon: <Golf className="h-6 w-6" />,
-    title: "PGA Associate & Coach",
-    text: "Collegiate golfer turned coach and performance researcher.",
+    icon: <Flag className="h-6 w-6" aria-label="PGA Associate" />,
+    title: 'PGA Associate & Coach',
+    text: 'Collegiate golfer turned coach and performance researcher.',
   },
   {
-    icon: <Dumbbell className="h-6 w-6" />,
-    title: "Sports‑Science Research",
-    text: "Hex bar PAP warm‑ups, rotational med‑ball throws, TrackMan datasets.",
+    icon: <Dumbbell className="h-6 w-6" aria-label="Sports Science" />,
+    title: 'Sports‑Science Research',
+    text: 'Hex bar PAP warm‑ups, rotational med‑ball throws, TrackMan datasets.',
   },
   {
-    icon: <Rocket className="h-6 w-6" />,
-    title: "Builder & Operator",
-    text: "From zero‑to‑one prototypes to investor decks and GTM playbooks.",
+    icon: <Rocket className="h-6 w-6" aria-label="Builder" />,
+    title: 'Builder & Operator',
+    text: 'From zero‑to‑one prototypes to investor decks and GTM playbooks.',
   },
-];
+]
 
 const talks = [
   {
-    title: "Hex Bar Deadlift as PAP for Golf Warm‑ups",
-    event: "Sports Performance Conference",
-    year: "2025",
+    title: 'Hex Bar Deadlift as PAP for Golf Warm‑ups',
+    event: 'Sports Performance Conference',
+    year: '2025',
   },
-];
+]
 
 const projects = [
   {
-    title: "Golf Performance Clinic (Concept)",
+    title: 'Golf Performance Clinic (Concept)',
     summary:
-      "One‑stop performance & rehab hub integrating PGA pros, PT/S&C, and analytics. East‑coast Florida pilot vision.",
-    tags: ["Sports Med", "Rehab", "Analytics"],
+      'One‑stop performance & rehab hub integrating PGA pros, PT/S&C, and analytics. East‑coast Florida pilot vision.',
+    tags: ['Sports Med', 'Rehab', 'Analytics'],
   },
   {
-    title: "Swing × Fitness Correlation Study",
+    title: 'Swing × Fitness Correlation Study',
     summary:
-      "Oklahoma State GRIP Center: linking fitness data to on‑course performance using TrackMan & field testing.",
-    tags: ["Research", "Golf", "Data"],
+      'Oklahoma State GRIP Center: linking fitness data to on‑course performance using TrackMan & field testing.',
+    tags: ['Research', 'Golf', 'Data'],
   },
-];
+]
 
 const contact = [
-  { icon: <Mail className="h-4 w-4" />, label: "Email", href: "mailto:parker@example.com" }, // TODO
-  { icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn", href: "#" }, // TODO
-  { icon: <Github className="h-4 w-4" />, label: "GitHub", href: "#" }, // TODO
-];
+  { icon: <Mail className="h-4 w-4" />, label: 'Email', href: 'mailto:parker@example.com' },
+  { icon: <Linkedin className="h-4 w-4" />, label: 'LinkedIn', href: '#' },
+  { icon: <Github className="h-4 w-4" />, label: 'GitHub', href: '#' },
+]
 
-export default function ParkerSite() {
+// ----------
+// Tiny runtime checks (in dev console)
+// ----------
+function DevTests() {
+  React.useEffect(() => {
+    try {
+      console.assert(Array.isArray(skills) && skills.length >= 8, 'skills should have at least 8 items')
+      console.assert(ventures.length >= 1, 'ventures should have at least one item')
+      console.assert(highlights.length === 4, 'highlights should have exactly four cards')
+      console.assert(talks.length >= 1, 'talks should have at least one item')
+      const email = contact.find((c) => c.label === 'Email')
+      console.assert(email && email.href.startsWith('mailto:'), 'contact should include a mailto link')
+      console.assert(skills.includes('TAM/SAM/SOM Modeling'), 'skills must include TAM/SAM/SOM Modeling')
+      console.log('✅ DevTests: all checks passed')
+    } catch (e) {
+      console.error('❌ DevTests failed', e)
+    }
+  }, [])
+  return null
+}
+
+// ----------
+// UI helpers (replace shadcn/ui with Tailwind-only components)
+// ----------
+const Badge = ({ children, outline }) => (
+  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${outline ? 'border border-slate-200 text-slate-700' : 'bg-slate-100 text-slate-700'}`}>{children}</span>
+)
+
+const Button = ({ children, variant = 'solid', href = '#', small }) => {
+  const base = 'inline-flex items-center gap-2 rounded-2xl font-medium transition px-4 py-2';
+  const size = small ? ' text-sm' : ''
+  const styles = {
+    solid: 'bg-slate-900 text-white hover:opacity-90',
+    outline: 'border border-slate-300 text-slate-700 hover:bg-slate-50',
+    ghost: 'text-slate-700 hover:bg-slate-100',
+    secondary: 'bg-slate-100 text-slate-800 hover:bg-slate-200',
+  }[variant]
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900">
+    <a href={href} className={`${base} ${styles}${size}`}>{children}</a>
+  )
+}
+
+const Card = ({ children }) => (
+  <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">{children}</div>
+)
+const CardHeader = ({ children }) => (
+  <div className="p-5 border-b border-slate-200">{children}</div>
+)
+const CardTitle = ({ children, className = '' }) => (
+  <h3 className={`font-semibold ${className}`}>{children}</h3>
+)
+const CardContent = ({ children }) => (
+  <div className="p-5">{children}</div>
+)
+
+export default function App() {
+  return (
+    <div className="text-slate-900">
+      <DevTests />
+
       {/* Nav */}
       <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
@@ -112,9 +262,7 @@ export default function ParkerSite() {
             <a href="#contact" className="hover:opacity-70">Contact</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Button asChild size="sm" className="rounded-2xl">
-              <a href="#contact">Let’s talk</a>
-            </Button>
+            <Button href="#contact" small>Let’s talk</Button>
           </div>
         </div>
       </header>
@@ -126,7 +274,7 @@ export default function ParkerSite() {
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
               <MapPin className="h-3.5 w-3.5" /> America/Indiana/Indianapolis
             </div>
-            <h1 className="mt-4 text-4xl/tight md:text-6xl/tight font-extrabold tracking-tight">
+            <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
               Builder at the intersection of <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-lime-500">golf</span>,
               <br /> sports science, and startups
             </h1>
@@ -136,15 +284,9 @@ export default function ParkerSite() {
               data‑driven coaching.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild className="rounded-2xl">
-                <a href="#ventures"><Rocket className="mr-2 h-4 w-4" /> Explore my work</a>
-              </Button>
-              <Button asChild variant="outline" className="rounded-2xl">
-                <a href="#contact"><Mail className="mr-2 h-4 w-4" /> Contact</a>
-              </Button>
-              <Button asChild variant="ghost" className="rounded-2xl">
-                <a href="#resume"><FileText className="mr-2 h-4 w-4" /> Resume</a>
-              </Button>
+              <Button href="#ventures"><Rocket className="h-4 w-4" /> Explore my work</Button>
+              <Button href="#contact" variant="outline"><Mail className="h-4 w-4" /> Contact</Button>
+              <Button href="#resume" variant="ghost"><FileText className="h-4 w-4" /> Resume</Button>
             </div>
             <div className="mt-6 flex items-center gap-4 text-sm text-slate-500">
               <div className="inline-flex items-center gap-1.5"><Trophy className="h-4 w-4" /> NCAA Regionals alum</div>
@@ -152,19 +294,21 @@ export default function ParkerSite() {
             </div>
           </div>
           <div className="md:col-span-5">
-            <Card className="shadow-lg rounded-2xl">
+            <Card>
               <CardHeader>
                 <CardTitle className="text-xl">What I’m optimizing for</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-slate-600">
-                <div className="flex items-start gap-3"><Lightbulb className="h-5 w-5 mt-0.5" />
-                  <p>Evidence‑based performance: linking swing mechanics, S&C, and on‑course outcomes.</p>
-                </div>
-                <div className="flex items-start gap-3"><Presentation className="h-5 w-5 mt-0.5" />
-                  <p>Clear narratives that move investors, coaches, and athletes to action.</p>
-                </div>
-                <div className="flex items-start gap-3"><Calendar className="h-5 w-5 mt-0.5" />
-                  <p>Consistent habits: training, analysis, and shipping prototypes.</p>
+              <CardContent>
+                <div className="space-y-3 text-slate-600">
+                  <div className="flex items-start gap-3"><Lightbulb className="h-5 w-5 mt-0.5" />
+                    <p>Evidence‑based performance: linking swing mechanics, S&C, and on‑course outcomes.</p>
+                  </div>
+                  <div className="flex items-start gap-3"><BarChart3 className="h-5 w-5 mt-0.5" />
+                    <p>Clear narratives that move investors, coaches, and athletes to action.</p>
+                  </div>
+                  <div className="flex items-start gap-3"><Calendar className="h-5 w-5 mt-0.5" />
+                    <p>Consistent habits: training, analysis, and shipping prototypes.</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -176,12 +320,16 @@ export default function ParkerSite() {
       <section id="about" className="mx-auto max-w-6xl px-4 py-8">
         <div className="grid md:grid-cols-4 gap-4">
           {highlights.map((h, i) => (
-            <Card key={i} className="rounded-2xl">
-              <CardHeader className="flex flex-row items-center gap-3 pb-2">
-                <div className="p-2 rounded-xl bg-slate-100">{h.icon}</div>
-                <CardTitle className="text-base">{h.title}</CardTitle>
+            <Card key={i}>
+              <CardHeader>
+                <div className="flex flex-row items-center gap-3">
+                  <div className="p-2 rounded-xl bg-slate-100">{h.icon}</div>
+                  <CardTitle className="text-base">{h.title}</CardTitle>
+                </div>
               </CardHeader>
-              <CardContent className="text-sm text-slate-600">{h.text}</CardContent>
+              <CardContent>
+                <p className="text-sm text-slate-600">{h.text}</p>
+              </CardContent>
             </Card>
           ))}
         </div>
@@ -193,7 +341,7 @@ export default function ParkerSite() {
         <p className="mt-2 text-slate-600">Where I’m building, learning, and compounding.</p>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           {ventures.map((v, i) => (
-            <Card key={i} className="rounded-2xl">
+            <Card key={i}>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>{v.name}</span>
@@ -204,12 +352,12 @@ export default function ParkerSite() {
                 <p className="text-slate-600 mb-3">{v.blurb}</p>
                 <div className="flex flex-wrap gap-2">
                   {v.tags.map((t) => (
-                    <Badge key={t} variant="secondary" className="rounded-full">{t}</Badge>
+                    <Badge key={t}>{t}</Badge>
                   ))}
                 </div>
                 <div className="mt-4">
-                  <Button asChild size="sm" variant="outline" className="rounded-2xl">
-                    <a href={v.cta.href}>{v.cta.label}</a>
+                  <Button href={v.cta.href} variant="outline" small>
+                    {v.cta.label}
                   </Button>
                 </div>
               </CardContent>
@@ -224,7 +372,7 @@ export default function ParkerSite() {
         <p className="mt-2 text-slate-600">Research and prototypes at the edge of sport and science.</p>
         <div className="mt-6 grid md:grid-cols-3 gap-6">
           {projects.map((p, i) => (
-            <Card key={i} className="rounded-2xl">
+            <Card key={i}>
               <CardHeader>
                 <CardTitle className="text-lg">{p.title}</CardTitle>
               </CardHeader>
@@ -232,7 +380,7 @@ export default function ParkerSite() {
                 <p className="text-sm text-slate-600">{p.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {p.tags.map((t) => (
-                    <Badge key={t} variant="outline" className="rounded-full">{t}</Badge>
+                    <Badge key={t} outline>{t}</Badge>
                   ))}
                 </div>
               </CardContent>
@@ -243,14 +391,14 @@ export default function ParkerSite() {
 
       {/* Skills */}
       <section className="mx-auto max-w-6xl px-4 py-8">
-        <Card className="rounded-2xl">
+        <Card>
           <CardHeader>
             <CardTitle>Capabilities</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {skills.map((s) => (
-                <Badge key={s} variant="secondary" className="rounded-full">{s}</Badge>
+                <Badge key={s}>{s}</Badge>
               ))}
             </div>
           </CardContent>
@@ -262,12 +410,14 @@ export default function ParkerSite() {
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Speaking & Appearances</h2>
         <div className="mt-4 grid md:grid-cols-2 gap-6">
           {talks.map((t, i) => (
-            <Card key={i} className="rounded-2xl">
-              <CardHeader className="flex flex-row items-center gap-3">
-                <div className="p-2 rounded-xl bg-slate-100"><Mic2 className="h-5 w-5" /></div>
-                <div>
-                  <CardTitle className="text-lg">{t.title}</CardTitle>
-                  <p className="text-sm text-slate-500">{t.event} · {t.year}</p>
+            <Card key={i}>
+              <CardHeader>
+                <div className="flex flex-row items-center gap-3">
+                  <div className="p-2 rounded-xl bg-slate-100"><Mic className="h-5 w-5" /></div>
+                  <div>
+                    <CardTitle className="text-lg">{t.title}</CardTitle>
+                    <p className="text-sm text-slate-500">{t.event} · {t.year}</p>
+                  </div>
                 </div>
               </CardHeader>
             </Card>
@@ -277,17 +427,19 @@ export default function ParkerSite() {
 
       {/* Resume */}
       <section id="resume" className="mx-auto max-w-6xl px-4 py-8">
-        <Card className="rounded-2xl">
+        <Card>
           <CardHeader>
             <CardTitle>Resume</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-            <p className="text-slate-600 max-w-2xl">
-              One page covering venture strategy, sports‑science research, and golf operations.
-            </p>
-            <div className="flex items-center gap-3">
-              <Button asChild className="rounded-2xl"><a href="#">Download PDF</a></Button>{/* TODO wire */}
-              <Button asChild variant="outline" className="rounded-2xl"><a href="#">View online</a></Button>
+          <CardContent>
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <p className="text-slate-600 max-w-2xl">
+                One page covering venture strategy, sports‑science research, and golf operations.
+              </p>
+              <div className="flex items-center gap-3">
+                <Button href="#">Download PDF</Button>
+                <Button href="#" variant="outline">View online</Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -295,7 +447,7 @@ export default function ParkerSite() {
 
       {/* Contact */}
       <section id="contact" className="mx-auto max-w-6xl px-4 py-8">
-        <Card className="rounded-2xl">
+        <Card>
           <CardHeader>
             <CardTitle>Get in touch</CardTitle>
           </CardHeader>
@@ -305,8 +457,8 @@ export default function ParkerSite() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               {contact.map((c) => (
-                <Button key={c.label} asChild variant="secondary" className="rounded-2xl">
-                  <a href={c.href} className="inline-flex items-center gap-2">{c.icon}{c.label}</a>
+                <Button key={c.label} href={c.href} variant="secondary">
+                  <span className="inline-flex items-center gap-2">{c.icon}{c.label}</span>
                 </Button>
               ))}
             </div>
@@ -314,7 +466,7 @@ export default function ParkerSite() {
         </Card>
       </section>
 
-      <Separator className="my-8" />
+      <hr className="my-8 border-slate-200" />
 
       {/* Footer */}
       <footer className="mx-auto max-w-6xl px-4 pb-12 text-sm text-slate-500">
@@ -327,5 +479,137 @@ export default function ParkerSite() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
+
+---
+File: src/test/setup.js
+---
+import '@testing-library/jest-dom'
+
+---
+File: src/__tests__/app.test.jsx
+---
+import { render, screen } from '@testing-library/react'
+import App from '../App.jsx'
+import { describe, it, expect } from 'vitest'
+
+// Basic render test
+describe('App', () => {
+  it('renders the hero headline', () => {
+    render(<App />)
+    expect(screen.getByText(/Builder at the intersection/i)).toBeInTheDocument()
+  })
+
+  it('shows the Ventures & Roles section', () => {
+    render(<App />)
+    expect(screen.getByText('Ventures & Roles')).toBeInTheDocument()
+  })
+
+  it('has a mailto contact link', () => {
+    render(<App />)
+    const link = screen.getByRole('link', { name: /Email/i })
+    expect(link).toHaveAttribute('href')
+    expect(link.getAttribute('href')).toMatch(/^mailto:/)
+  })
+})
+
+---
+File: .gitignore
+---
+node_modules
+.dist
+.DS_Store
+dist
+
+---
+File: .github/workflows/deploy.yml
+---
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci
+      - name: Set VITE_BASE for Pages
+        run: echo "VITE_BASE=/${{ github.event.repository.name }}/" >> $GITHUB_ENV
+      - name: Build
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+---
+File: README.md
+---
+# Parker Dietzel — Personal Website
+
+A lightweight React site (Vite) styled with Tailwind **via CDN** (no Tailwind config required) and lucide-react icons. Includes basic tests and a GitHub Actions workflow for auto‑deploy to GitHub Pages.
+
+## Local dev
+
+```bash
+npm install
+npm run dev
+```
+
+## Tests
+
+```bash
+npm test
+```
+
+## Deploy to GitHub Pages
+
+1. Create a new GitHub repo and push this code to the `main` branch.
+2. Go to **Settings → Pages** and set **Source** to "GitHub Actions" (it will detect the included workflow).
+3. Push any commit to `main`. The workflow builds with `VITE_BASE=/<repo>/` and deploys to Pages automatically.
+4. Your site will be live at `https://<your-username>.github.io/<repo>/`.
+
+### Custom domain (optional)
+- In **Settings → Pages**, add your custom domain.
+- Create a `CNAME` record at your DNS pointing to `<your-username>.github.io`.
+
+## Customize
+- Update contact links in `src/App.jsx` (`mailto:`, LinkedIn, GitHub).
+- Replace resume buttons with your URL or add a `public/resume.pdf` and set the href to `/resume.pdf`.
+- To add blog posts or more sections, create new components or expand data arrays.
+
+## Notes
+- This template avoids shadcn/ui to keep the repo minimal — all UI is Tailwind classes.
+- Icons are from `lucide-react`.
+- If your repo name changes later, the Pages workflow automatically sets `VITE_BASE` so assets resolve correctly.
