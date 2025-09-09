@@ -1,615 +1,250 @@
-# Parker Dietzel — Personal Website (Vite + React, Tailwind via CDN)
-
-Below is a complete, ready‑to‑push GitHub repo. Create a new repo, add these files with the same paths, then follow the README steps to run locally and auto‑deploy to GitHub Pages.
-
----
-File: package.json
----
-{
-  "name": "parker-site",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "lucide-react": "^0.441.0"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.3.1",
-    "@vitejs/plugin-react": "^4.3.1",
-    "jsdom": "^24.1.0",
-    "vite": "^5.4.8",
-    "vitest": "^2.0.5"
-  },
-  "vitest": {
-    "environment": "jsdom",
-    "setupFiles": ["./src/test/setup.js"]
-  }
-}
-
----
-File: vite.config.js
----
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-// If deploying to GitHub Pages under https://<user>.github.io/<repo>/, 
-// the base must be "/<repo>/". The workflow sets VITE_BASE automatically.
-export default defineConfig({
-  plugins: [react()],
-  base: process.env.VITE_BASE || '/',
-})
-
----
-File: index.html
----
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Parker Dietzel</title>
-    <!-- Tailwind Play CDN -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide icons (no React needed) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root { --ring: rgba(16,185,129,.35); }
+      body { font-family: Inter, ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif; }
+      .bg-grid {
+        background-image: radial-gradient(rgba(15,23,42,.06) 1px, transparent 1px);
+        background-size: 22px 22px;
+      }
+      .glass { background: rgba(255,255,255,.7); backdrop-filter: saturate(160%) blur(12px); border: 1px solid rgba(148,163,184,.25); }
+      .shadow-soft { box-shadow: 0 10px 30px -12px rgba(2,6,23,.18); }
+      .gradient-text { background: linear-gradient(90deg, #10b981, #84cc16); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .hero-gradient { background: radial-gradient(800px 400px at 10% 0%, rgba(16,185,129,.18), transparent 40%), radial-gradient(800px 400px at 90% 10%, rgba(132,204,22,.18), transparent 40%); }
+    </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+  <body class="min-h-screen text-slate-900 bg-gradient-to-b from-white via-slate-50 to-slate-100">
+    <!-- NAV -->
+    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/70 backdrop-blur">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <a href="#home" class="font-semibold tracking-tight hover:opacity-80">Parker Dietzel</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#about" class="hover:opacity-70">About</a>
+          <a href="#ventures" class="hover:opacity-70">Ventures</a>
+          <a href="#projects" class="hover:opacity-70">Projects</a>
+          <a href="#speaking" class="hover:opacity-70">Speaking</a>
+          <a href="#contact" class="hover:opacity-70">Contact</a>
+        </nav>
+        <a href="#contact" class="inline-flex items-center gap-2 rounded-2xl bg-slate-900 text-white px-4 py-2 text-sm hover:opacity-90">
+          <i data-lucide="mail" class="w-4 h-4"></i> Let’s talk
+        </a>
+      </div>
+    </header>
 
----
-File: src/main.jsx
----
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
-
----
-File: src/App.jsx
----
-import React from 'react'
-import {
-  Github,
-  Linkedin,
-  Mail,
-  Music,
-  Trophy,
-  BarChart3,
-  Dumbbell,
-  Flag,
-  GraduationCap,
-  MapPin,
-  Rocket,
-  FileText,
-  Mic,
-  Calendar,
-  Lightbulb,
-} from 'lucide-react'
-
-// ----------
-// Data
-// ----------
-const skills = [
-  'Venture Strategy',
-  'TAM/SAM/SOM Modeling',
-  'Go-To-Market',
-  'Fundraising (SAFE, Angels, VC)',
-  'Sports Science',
-  'Golf Performance',
-  'R, Python, Google Sheets',
-  'Data Visualization',
-  'Stakeholder Interviews',
-  'Pitch Storytelling',
-]
-
-const ventures = [
-  {
-    name: 'GameRun',
-    role: 'Senior Capital & GTM Strategist',
-    period: '2025 — present',
-    blurb:
-      'AI‑driven sports‑video analytics. I lead capital readiness, VC outreach, and GTM. Modeling TAM/SAM/SOM, pricing, and investor materials.',
-    tags: ['AI', 'Sports Tech', 'Video Analytics'],
-    cta: { label: 'Learn more', href: '#' },
-  },
-  {
-    name: 'Furnish Forward',
-    role: 'COO & Co‑Founder',
-    period: '2024 — present',
-    blurb:
-      'Furniture redistribution startup turning dorm/apartment turnover into circular‑economy wins. Ops, partnerships, and growth.',
-    tags: ['Circular Economy', 'Ops', 'Social Impact'],
-    cta: { label: 'Coming soon', href: '#' },
-  },
-]
-
-const highlights = [
-  {
-    icon: <GraduationCap className="h-6 w-6" aria-label="Education" />,
-    title: 'Notre Dame ESTEEM',
-    text: "Master's in Engineering, Science & Tech Entrepreneurship (ESTEEM).",
-  },
-  {
-    icon: <Flag className="h-6 w-6" aria-label="PGA Associate" />,
-    title: 'PGA Associate & Coach',
-    text: 'Collegiate golfer turned coach and performance researcher.',
-  },
-  {
-    icon: <Dumbbell className="h-6 w-6" aria-label="Sports Science" />,
-    title: 'Sports‑Science Research',
-    text: 'Hex bar PAP warm‑ups, rotational med‑ball throws, TrackMan datasets.',
-  },
-  {
-    icon: <Rocket className="h-6 w-6" aria-label="Builder" />,
-    title: 'Builder & Operator',
-    text: 'From zero‑to‑one prototypes to investor decks and GTM playbooks.',
-  },
-]
-
-const talks = [
-  {
-    title: 'Hex Bar Deadlift as PAP for Golf Warm‑ups',
-    event: 'Sports Performance Conference',
-    year: '2025',
-  },
-]
-
-const projects = [
-  {
-    title: 'Golf Performance Clinic (Concept)',
-    summary:
-      'One‑stop performance & rehab hub integrating PGA pros, PT/S&C, and analytics. East‑coast Florida pilot vision.',
-    tags: ['Sports Med', 'Rehab', 'Analytics'],
-  },
-  {
-    title: 'Swing × Fitness Correlation Study',
-    summary:
-      'Oklahoma State GRIP Center: linking fitness data to on‑course performance using TrackMan & field testing.',
-    tags: ['Research', 'Golf', 'Data'],
-  },
-]
-
-const contact = [
-  { icon: <Mail className="h-4 w-4" />, label: 'Email', href: 'mailto:parker@example.com' },
-  { icon: <Linkedin className="h-4 w-4" />, label: 'LinkedIn', href: '#' },
-  { icon: <Github className="h-4 w-4" />, label: 'GitHub', href: '#' },
-]
-
-// ----------
-// Tiny runtime checks (in dev console)
-// ----------
-function DevTests() {
-  React.useEffect(() => {
-    try {
-      console.assert(Array.isArray(skills) && skills.length >= 8, 'skills should have at least 8 items')
-      console.assert(ventures.length >= 1, 'ventures should have at least one item')
-      console.assert(highlights.length === 4, 'highlights should have exactly four cards')
-      console.assert(talks.length >= 1, 'talks should have at least one item')
-      const email = contact.find((c) => c.label === 'Email')
-      console.assert(email && email.href.startsWith('mailto:'), 'contact should include a mailto link')
-      console.assert(skills.includes('TAM/SAM/SOM Modeling'), 'skills must include TAM/SAM/SOM Modeling')
-      console.log('✅ DevTests: all checks passed')
-    } catch (e) {
-      console.error('❌ DevTests failed', e)
-    }
-  }, [])
-  return null
-}
-
-// ----------
-// UI helpers (replace shadcn/ui with Tailwind-only components)
-// ----------
-const Badge = ({ children, outline }) => (
-  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${outline ? 'border border-slate-200 text-slate-700' : 'bg-slate-100 text-slate-700'}`}>{children}</span>
-)
-
-const Button = ({ children, variant = 'solid', href = '#', small }) => {
-  const base = 'inline-flex items-center gap-2 rounded-2xl font-medium transition px-4 py-2';
-  const size = small ? ' text-sm' : ''
-  const styles = {
-    solid: 'bg-slate-900 text-white hover:opacity-90',
-    outline: 'border border-slate-300 text-slate-700 hover:bg-slate-50',
-    ghost: 'text-slate-700 hover:bg-slate-100',
-    secondary: 'bg-slate-100 text-slate-800 hover:bg-slate-200',
-  }[variant]
-  return (
-    <a href={href} className={`${base} ${styles}${size}`}>{children}</a>
-  )
-}
-
-const Card = ({ children }) => (
-  <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">{children}</div>
-)
-const CardHeader = ({ children }) => (
-  <div className="p-5 border-b border-slate-200">{children}</div>
-)
-const CardTitle = ({ children, className = '' }) => (
-  <h3 className={`font-semibold ${className}`}>{children}</h3>
-)
-const CardContent = ({ children }) => (
-  <div className="p-5">{children}</div>
-)
-
-export default function App() {
-  return (
-    <div className="text-slate-900">
-      <DevTests />
-
-      {/* Nav */}
-      <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <a href="#home" className="font-semibold tracking-tight text-slate-800">Parker Dietzel</a>
-          <nav className="hidden md:flex items-center gap-4">
-            <a href="#about" className="hover:opacity-70">About</a>
-            <a href="#ventures" className="hover:opacity-70">Ventures</a>
-            <a href="#projects" className="hover:opacity-70">Projects</a>
-            <a href="#speaking" className="hover:opacity-70">Speaking</a>
-            <a href="#contact" className="hover:opacity-70">Contact</a>
-          </nav>
-          <div className="flex items-center gap-2">
-            <Button href="#contact" small>Let’s talk</Button>
+    <!-- HERO -->
+    <section id="home" class="relative overflow-hidden">
+      <div class="hero-gradient absolute inset-0"></div>
+      <div class="bg-grid absolute inset-0"></div>
+      <div class="relative mx-auto max-w-6xl px-4 pt-16 pb-12 grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-7">
+          <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> America/Indiana/Indianapolis
+          </div>
+          <h1 class="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+            Builder at the intersection of <span class="gradient-text">golf</span>,<br/> sports science, and startups
+          </h1>
+          <p class="mt-4 text-lg text-slate-600 max-w-2xl">
+            ESTEEM @ Notre Dame · Senior Capital & GTM Strategist at GameRun · PGA Associate ·
+            Co‑founder, Furnish Forward. I put a science behind golf—through research, products, and
+            data‑driven coaching.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#ventures" class="inline-flex items-center gap-2 rounded-2xl bg-slate-900 text-white px-4 py-2 hover:opacity-90"><i data-lucide="rocket" class="w-4 h-4"></i> Explore my work</a>
+            <a href="#contact" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 text-slate-700 px-4 py-2 hover:bg-slate-50"><i data-lucide="mail" class="w-4 h-4"></i> Contact</a>
+            <a href="#resume" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-slate-700 hover:bg-slate-100"><i data-lucide="file-text" class="w-4 h-4"></i> Resume</a>
+          </div>
+          <div class="mt-6 flex items-center gap-4 text-sm text-slate-500">
+            <div class="inline-flex items-center gap-1.5"><i data-lucide="trophy" class="w-4 h-4"></i> NCAA Regionals alum</div>
+            <div class="inline-flex items-center gap-1.5"><i data-lucide="music" class="w-4 h-4"></i> Buddy Rich & Kendrick on repeat</div>
           </div>
         </div>
-      </header>
-
-      {/* Hero */}
-      <section id="home" className="mx-auto max-w-6xl px-4 pt-16 pb-8">
-        <div className="grid md:grid-cols-12 gap-8 items-center">
-          <div className="md:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
-              <MapPin className="h-3.5 w-3.5" /> America/Indiana/Indianapolis
+        <div class="md:col-span-5">
+          <div class="glass shadow-soft rounded-2xl">
+            <div class="p-5 border-b border-slate-200/70">
+              <h3 class="text-xl font-semibold">What I’m optimizing for</h3>
             </div>
-            <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-              Builder at the intersection of <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-lime-500">golf</span>,
-              <br /> sports science, and startups
-            </h1>
-            <p className="mt-4 text-lg text-slate-600 max-w-2xl">
-              ESTEEM @ Notre Dame · Senior Capital & GTM Strategist at GameRun · PGA Associate ·
-              Co‑founder, Furnish Forward. I put a science behind golf—through research, products, and
-              data‑driven coaching.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="#ventures"><Rocket className="h-4 w-4" /> Explore my work</Button>
-              <Button href="#contact" variant="outline"><Mail className="h-4 w-4" /> Contact</Button>
-              <Button href="#resume" variant="ghost"><FileText className="h-4 w-4" /> Resume</Button>
-            </div>
-            <div className="mt-6 flex items-center gap-4 text-sm text-slate-500">
-              <div className="inline-flex items-center gap-1.5"><Trophy className="h-4 w-4" /> NCAA Regionals alum</div>
-              <div className="inline-flex items-center gap-1.5"><Music className="h-4 w-4" /> Buddy Rich & Kendrick on repeat</div>
-            </div>
-          </div>
-          <div className="md:col-span-5">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">What I’m optimizing for</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 text-slate-600">
-                  <div className="flex items-start gap-3"><Lightbulb className="h-5 w-5 mt-0.5" />
-                    <p>Evidence‑based performance: linking swing mechanics, S&C, and on‑course outcomes.</p>
-                  </div>
-                  <div className="flex items-start gap-3"><BarChart3 className="h-5 w-5 mt-0.5" />
-                    <p>Clear narratives that move investors, coaches, and athletes to action.</p>
-                  </div>
-                  <div className="flex items-start gap-3"><Calendar className="h-5 w-5 mt-0.5" />
-                    <p>Consistent habits: training, analysis, and shipping prototypes.</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Highlights */}
-      <section id="about" className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid md:grid-cols-4 gap-4">
-          {highlights.map((h, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <div className="flex flex-row items-center gap-3">
-                  <div className="p-2 rounded-xl bg-slate-100">{h.icon}</div>
-                  <CardTitle className="text-base">{h.title}</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-slate-600">{h.text}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Ventures */}
-      <section id="ventures" className="mx-auto max-w-6xl px-4 py-8">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Ventures & Roles</h2>
-        <p className="mt-2 text-slate-600">Where I’m building, learning, and compounding.</p>
-        <div className="mt-6 grid md:grid-cols-2 gap-6">
-          {ventures.map((v, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>{v.name}</span>
-                  <span className="text-sm font-normal text-slate-500">{v.period}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-slate-600 mb-3">{v.blurb}</p>
-                <div className="flex flex-wrap gap-2">
-                  {v.tags.map((t) => (
-                    <Badge key={t}>{t}</Badge>
-                  ))}
-                </div>
-                <div className="mt-4">
-                  <Button href={v.cta.href} variant="outline" small>
-                    {v.cta.label}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section id="projects" className="mx-auto max-w-6xl px-4 py-8">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Projects & Experiments</h2>
-        <p className="mt-2 text-slate-600">Research and prototypes at the edge of sport and science.</p>
-        <div className="mt-6 grid md:grid-cols-3 gap-6">
-          {projects.map((p, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <CardTitle className="text-lg">{p.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-slate-600">{p.summary}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {p.tags.map((t) => (
-                    <Badge key={t} outline>{t}</Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Capabilities</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {skills.map((s) => (
-                <Badge key={s}>{s}</Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Speaking */}
-      <section id="speaking" className="mx-auto max-w-6xl px-4 py-8">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Speaking & Appearances</h2>
-        <div className="mt-4 grid md:grid-cols-2 gap-6">
-          {talks.map((t, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <div className="flex flex-row items-center gap-3">
-                  <div className="p-2 rounded-xl bg-slate-100"><Mic className="h-5 w-5" /></div>
-                  <div>
-                    <CardTitle className="text-lg">{t.title}</CardTitle>
-                    <p className="text-sm text-slate-500">{t.event} · {t.year}</p>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Resume */}
-      <section id="resume" className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Resume</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-              <p className="text-slate-600 max-w-2xl">
-                One page covering venture strategy, sports‑science research, and golf operations.
-              </p>
-              <div className="flex items-center gap-3">
-                <Button href="#">Download PDF</Button>
-                <Button href="#" variant="outline">View online</Button>
+            <div class="p-5 space-y-3 text-slate-700">
+              <div class="flex items-start gap-3"><i data-lucide="lightbulb" class="w-5 h-5 mt-0.5"></i>
+                <p>Evidence‑based performance: linking swing mechanics, S&C, and on‑course outcomes.</p>
+              </div>
+              <div class="flex items-start gap-3"><i data-lucide="bar-chart-3" class="w-5 h-5 mt-0.5"></i>
+                <p>Clear narratives that move investors, coaches, and athletes to action.</p>
+              </div>
+              <div class="flex items-start gap-3"><i data-lucide="calendar" class="w-5 h-5 mt-0.5"></i>
+                <p>Consistent habits: training, analysis, and shipping prototypes.</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Get in touch</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-slate-600">
-              I’m always up for chatting about sports tech, research collabs, or investor intros.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {contact.map((c) => (
-                <Button key={c.label} href={c.href} variant="secondary">
-                  <span className="inline-flex items-center gap-2">{c.icon}{c.label}</span>
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      <hr className="my-8 border-slate-200" />
-
-      {/* Footer */}
-      <footer className="mx-auto max-w-6xl px-4 pb-12 text-sm text-slate-500">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Parker Dietzel. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <a className="hover:opacity-70" href="#">Privacy</a>
-            <a className="hover:opacity-70" href="#">Terms</a>
           </div>
         </div>
-      </footer>
-    </div>
-  )
-}
+      </div>
+    </section>
 
----
-File: src/test/setup.js
----
-import '@testing-library/jest-dom'
+    <!-- HIGHLIGHTS -->
+    <section id="about" class="mx-auto max-w-6xl px-4 py-12">
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 rounded-xl bg-slate-100"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+            <h3 class="font-semibold">Notre Dame ESTEEM</h3>
+          </div>
+          <p class="text-sm text-slate-600">Master's in Engineering, Science & Tech Entrepreneurship (ESTEEM).</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 rounded-xl bg-slate-100"><i data-lucide="flag" class="w-6 h-6"></i></div>
+            <h3 class="font-semibold">PGA Associate & Coach</h3>
+          </div>
+          <p class="text-sm text-slate-600">Collegiate golfer turned coach and performance researcher.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 rounded-xl bg-slate-100"><i data-lucide="dumbbell" class="w-6 h-6"></i></div>
+            <h3 class="font-semibold">Sports‑Science Research</h3>
+          </div>
+          <p class="text-sm text-slate-600">Hex bar PAP warm‑ups, rotational med‑ball throws, TrackMan datasets.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 rounded-xl bg-slate-100"><i data-lucide="rocket" class="w-6 h-6"></i></div>
+            <h3 class="font-semibold">Builder & Operator</h3>
+          </div>
+          <p class="text-sm text-slate-600">From zero‑to‑one prototypes to investor decks and GTM playbooks.</p>
+        </div>
+      </div>
+    </section>
 
----
-File: src/__tests__/app.test.jsx
----
-import { render, screen } from '@testing-library/react'
-import App from '../App.jsx'
-import { describe, it, expect } from 'vitest'
+    <!-- VENTURES -->
+    <section id="ventures" class="mx-auto max-w-6xl px-4 py-12">
+      <div class="flex items-end justify-between">
+        <h2 class="text-3xl font-bold tracking-tight">Ventures & Roles</h2>
+        <span class="text-sm text-slate-500">Where I’m building, learning, and compounding.</span>
+      </div>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">GameRun</h3>
+            <span class="text-sm text-slate-500">2025 — present</span>
+          </div>
+          <p class="text-slate-600 mb-3">AI‑driven sports‑video analytics. I lead capital readiness, VC outreach, and GTM. Modeling TAM/SAM/SOM, pricing, and investor materials.</p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">AI</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Sports Tech</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Video Analytics</span>
+          </div>
+          <div class="mt-4">
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50">Learn more</a>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Furnish Forward</h3>
+            <span class="text-sm text-slate-500">2024 — present</span>
+          </div>
+          <p class="text-slate-600 mb-3">Furniture redistribution startup turning dorm/apartment turnover into circular‑economy wins. Ops, partnerships, and growth.</p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Circular Economy</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Ops</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">Social Impact</span>
+          </div>
+          <div class="mt-4">
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50">Coming soon</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-// Basic render test
-describe('App', () => {
-  it('renders the hero headline', () => {
-    render(<App />)
-    expect(screen.getByText(/Builder at the intersection/i)).toBeInTheDocument()
-  })
+    <!-- PROJECTS -->
+    <section id="projects" class="mx-auto max-w-6xl px-4 py-12">
+      <h2 class="text-3xl font-bold tracking-tight">Projects & Experiments</h2>
+      <p class="mt-2 text-slate-600">Research and prototypes at the edge of sport and science.</p>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <h3 class="text-lg font-semibold">Golf Performance Clinic (Concept)</h3>
+          <p class="text-sm text-slate-600 mt-2">One‑stop performance & rehab hub integrating PGA pros, PT/S&C, and analytics. East‑coast Florida pilot vision.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Sports Med</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Rehab</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Analytics</span>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <h3 class="text-lg font-semibold">Swing × Fitness Correlation Study</h3>
+          <p class="text-sm text-slate-600 mt-2">Oklahoma State GRIP Center: linking fitness data to on‑course performance using TrackMan & field testing.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Research</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Golf</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">Data</span>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+          <h3 class="text-lg font-semibold">(Open slot)</h3>
+          <p class="text-sm text-slate-600 mt-2">Add your next experiment here—prototype, dataset, or a quick write‑up.</p>
+        </div>
+      </div>
+    </section>
 
-  it('shows the Ventures & Roles section', () => {
-    render(<App />)
-    expect(screen.getByText('Ventures & Roles')).toBeInTheDocument()
-  })
+    <!-- RESUME -->
+    <section id="resume" class="mx-auto max-w-6xl px-4 py-12">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight">Resume</h2>
+            <p class="text-slate-600 mt-1 max-w-2xl">One page covering venture strategy, sports‑science research, and golf operations.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl bg-slate-900 text-white px-4 py-2 hover:opacity-90"><i data-lucide="download" class="w-4 h-4"></i> Download PDF</a>
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-50"><i data-lucide="external-link" class="w-4 h-4"></i> View online</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  it('has a mailto contact link', () => {
-    render(<App />)
-    const link = screen.getByRole('link', { name: /Email/i })
-    expect(link).toHaveAttribute('href')
-    expect(link.getAttribute('href')).toMatch(/^mailto:/)
-  })
-})
+    <!-- CONTACT -->
+    <section id="contact" class="mx-auto max-w-6xl px-4 py-12">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+        <h2 class="text-2xl font-bold tracking-tight">Get in touch</h2>
+        <p class="text-slate-600 mt-2">I’m always up for chatting about sports tech, research collabs, or investor intros.</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="mailto:parker@example.com" class="inline-flex items-center gap-2 rounded-2xl bg-slate-100 text-slate-900 px-4 py-2 hover:bg-slate-200"><i data-lucide="mail" class="w-4 h-4"></i> Email</a>
+          <a href="#" class="inline-flex items-center gap-2 rounded-2xl bg-slate-100 text-slate-900 px-4 py-2 hover:bg-slate-200"><i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn</a>
+          <a href="#" class="inline-flex items-center gap-2 rounded-2xl bg-slate-100 text-slate-900 px-4 py-2 hover:bg-slate-200"><i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
+        </div>
+      </div>
+    </section>
 
----
-File: .gitignore
----
-node_modules
-.dist
-.DS_Store
-dist
+    <!-- FOOTER -->
+    <footer class="mx-auto max-w-6xl px-4 pb-12 text-sm text-slate-500">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <p>© <span id="year"></span> Parker Dietzel. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          <a class="hover:opacity-70" href="#">Privacy</a>
+          <a class="hover:opacity-70" href="#">Terms</a>
+        </div>
+      </div>
+    </footer>
 
----
-File: .github/workflows/deploy.yml
----
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - name: Install deps
-        run: npm ci
-      - name: Set VITE_BASE for Pages
-        run: echo "VITE_BASE=/${{ github.event.repository.name }}/" >> $GITHUB_ENV
-      - name: Build
-        run: npm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
----
-File: README.md
----
-# Parker Dietzel — Personal Website
-
-A lightweight React site (Vite) styled with Tailwind **via CDN** (no Tailwind config required) and lucide-react icons. Includes basic tests and a GitHub Actions workflow for auto‑deploy to GitHub Pages.
-
-## Local dev
-
-```bash
-npm install
-npm run dev
-```
-
-## Tests
-
-```bash
-npm test
-```
-
-## Deploy to GitHub Pages
-
-1. Create a new GitHub repo and push this code to the `main` branch.
-2. Go to **Settings → Pages** and set **Source** to "GitHub Actions" (it will detect the included workflow).
-3. Push any commit to `main`. The workflow builds with `VITE_BASE=/<repo>/` and deploys to Pages automatically.
-4. Your site will be live at `https://<your-username>.github.io/<repo>/`.
-
-### Custom domain (optional)
-- In **Settings → Pages**, add your custom domain.
-- Create a `CNAME` record at your DNS pointing to `<your-username>.github.io`.
-
-## Customize
-- Update contact links in `src/App.jsx` (`mailto:`, LinkedIn, GitHub).
-- Replace resume buttons with your URL or add a `public/resume.pdf` and set the href to `/resume.pdf`.
-- To add blog posts or more sections, create new components or expand data arrays.
-
-## Notes
-- This template avoids shadcn/ui to keep the repo minimal — all UI is Tailwind classes.
-- Icons are from `lucide-react`.
-- If your repo name changes later, the Pages workflow automatically sets `VITE_BASE` so assets resolve correctly.
+    <script>
+      // Initialize lucide icons and current year
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide && lucide.createIcons) lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>
